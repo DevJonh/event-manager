@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { MdReorder } from 'react-icons/md'
+import { MdReorder, MdInsertEmoticon } from 'react-icons/md'
 
 import './styles.css'
 import { useSelector, useDispatch } from 'react-redux'
@@ -10,7 +10,8 @@ const NavBar = () => {
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
-        <span className="navbar-brand text-white fw-bold">Eventos</span>
+        <MdInsertEmoticon className="navbar-brand" color="#fff" size={46} />
+
         <button
           className="navbar-toggler"
           type="button"

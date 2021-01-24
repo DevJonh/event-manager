@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { MdInsertEmoticon } from 'react-icons/md'
 
 import firebase from '../../config/firebase'
 
@@ -48,6 +49,7 @@ const Login = () => {
       ) : (
         <form className="form-signin mx-auto">
           <div className="text-center mb-4">
+            <MdInsertEmoticon color="#fff" size={92} />
             <h1 className="h3 mb-3 fw-bold text-white">Login</h1>
           </div>
           <div className="form-label-group">
@@ -92,7 +94,7 @@ const Login = () => {
           )}
 
           <div className="options-login mt-4 text=center">
-            <Link to="/" className="me-2">
+            <Link to="/new-password" className="me-2">
               Recuperar Senha
             </Link>
             <span className="text-white">&#9830;</span>
