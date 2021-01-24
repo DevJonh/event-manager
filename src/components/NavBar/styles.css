@@ -6,6 +6,14 @@
   transition: 0.4s;
 }
 
-.nav-item a:hover {
+.nav-item a:hover,
+.nav-item button:hover {
   color: #f21667;
+}
+
+.nav-item button {
+  color: #fff;
+  background: none;
+  border: none;
+  transition: color 0.4s;
 }

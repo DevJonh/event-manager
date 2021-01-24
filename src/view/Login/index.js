@@ -72,11 +72,8 @@ const Login = () => {
           </div>
 
           {loading ? (
-            <div
-              className="spinner-border text-danger mt-3 d-flex justify-content-center"
-              role="status"
-            >
-              <span className="visually-hidden">Loading...</span>
+            <div className="spinner-border text-danger mt-3" role="status">
+              <span className="text-center visually-hidden">Loading...</span>
             </div>
           ) : (
             <button
