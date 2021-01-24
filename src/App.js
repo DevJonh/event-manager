@@ -1,9 +1,9 @@
 import React from 'react'
 
-import Login from './view/Login'
+import Routes from './routes/router'
 
 function App() {
-  return <Login />
+  return <Routes />
 }
 
 export default App

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import firebase from '../../config/firebase'
 
@@ -11,7 +12,7 @@ const Login = () => {
   const [msg, setMsg] = useState('')
 
   const logar = () => {
-    if (email === '' && password === '') {
+    if (email === '' || password === '') {
       setMsg('Por favor! Preencha o email/senha')
     }
 
@@ -75,13 +76,13 @@ const Login = () => {
         )}
 
         <div className="options-login mt-4 text=center">
-          <a href="/" className="me-2">
+          <Link to="/" className="me-2">
             Recuperar Senha
-          </a>
+          </Link>
           <span className="text-white">&#9830;</span>
-          <a href="/" className="ms-2">
+          <Link to="/register" className="ms-2">
             Quero Cadastrar
-          </a>
+          </Link>
         </div>
       </form>
     </div>
