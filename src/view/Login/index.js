@@ -1,8 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+import firebase from '../../config/firebase'
 
 import './styles.css'
 
 const Login = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const [msg, setMsg] = useState('')
+
+  const logar = () => {
+    if (email === '' && password === '') {
+      setMsg('Por favor! Preencha o email/senha')
+    }
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((response) => {
+        alert('Usuário Logado!')
+      })
+      .catch((err) => {
+        if (err.code === 'auth/invalid-email') {
+          setMsg('Por favor insira um email válido!')
+        }
+        if (err.code === 'auth/user-not-found') {
+          setMsg('Usuário não cadastrado.')
+        }
+        if (err.code === 'auth/wrong-password') {
+          setMsg('Email/Senha inválido.')
+        }
+      })
+  }
   return (
     <div className="login-content d-flex align-items-center">
       <form className="form-signin mx-auto">
@@ -15,6 +45,8 @@ const Login = () => {
             id="inputEmail"
             className="form-control my-2"
             placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="form-label-group">
@@ -23,26 +55,24 @@ const Login = () => {
             id="inputPassword"
             className="form-control my-2"
             placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
         <button
           className="w-100 btn btn-md btn-login fw-bold mt-3"
-          type="submit"
+          type="button"
+          onClick={logar}
         >
           Login
         </button>
 
-        <div className="msg-login text-white text-center my-2">
-          <span>
-            <strong>Uoolll</strong> Você está conectado! &#128522;
-          </span>
-          <br />
-          <span>
-            <strong>Opss</strong> Verifique se a senha ou usuários estão
-            corretos! &#128532;
-          </span>
-        </div>
+        {msg !== '' && (
+          <div className="msg-login text-white text-center mt-4">
+            <span>{msg}</span>
+          </div>
+        )}
 
         <div className="options-login mt-4 text=center">
           <a href="/" className="me-2">
