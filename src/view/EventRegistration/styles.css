@@ -1,0 +1,9 @@
+.btn-publisher {
+  background-color: #614ea6;
+  color: #fff;
+  transition: 0.4s;
+}
+.btn-publisher:hover {
+  background-color: #f12667;
+  color: #fff;
+}

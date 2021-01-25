@@ -5,6 +5,7 @@ import Login from '../view/Login'
 import Register from '../view/Register'
 import Home from '../view/Home'
 import RecoverPassword from '../view/RecoverPassword'
+import EventRegistration from '../view/EventRegistration'
 
 const Routes = () => {
   return (
@@ -13,6 +14,7 @@ const Routes = () => {
       <Route exact path="/register" component={Register} />
       <Route exact path="/" component={Home} />
       <Route exact path="/new-password" component={RecoverPassword} />
+      <Route exact path="/publisher" component={EventRegistration} />
     </BrowserRouter>
   )
 }
