@@ -13,6 +13,7 @@ const Routes = () => {
       <Route exact path="/login" component={Login} />
       <Route exact path="/register" component={Register} />
       <Route exact path="/" component={Home} />
+      <Route path="/event/:param" component={Home} />
       <Route exact path="/new-password" component={RecoverPassword} />
       <Route exact path="/publisher" component={EventRegistration} />
     </BrowserRouter>

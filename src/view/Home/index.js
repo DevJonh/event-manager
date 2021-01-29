@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import firebase from '../../config/firebase'
 
@@ -8,29 +9,50 @@ import NavBar from '../../components/NavBar'
 
 import './styles.css'
 
-const Home = () => {
+const Home = ({ match }) => {
   const [events, setEvents] = useState([])
   const [search, setSearch] = useState('')
 
   let listEvent = []
+  const userEmail = useSelector((state) => state.usuarioEmail)
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection('events')
-      .get()
-      .then(async (response) => {
-        await response.docs.forEach((doc) => {
-          if (doc.data().title.indexOf(search) >= 0) {
-            listEvent.push({
-              id: doc.id,
-              ...doc.data()
-            })
-          }
-        })
+    if (match.params.param) {
+      firebase
+        .firestore()
+        .collection('events')
+        .where('user', '===', userEmail)
+        .get()
+        .then(async (response) => {
+          await response.docs.forEach((doc) => {
+            if (doc.data().title.indexOf(search) >= 0) {
+              listEvent.push({
+                id: doc.id,
+                ...doc.data()
+              })
+            }
+          })
 
-        setEvents(listEvent)
-      })
+          setEvents(listEvent)
+        })
+    } else {
+      firebase
+        .firestore()
+        .collection('events')
+        .get()
+        .then(async (response) => {
+          await response.docs.forEach((doc) => {
+            if (doc.data().title.indexOf(search) >= 0) {
+              listEvent.push({
+                id: doc.id,
+                ...doc.data()
+              })
+            }
+          })
+
+          setEvents(listEvent)
+        })
+    }
   })
 
   return (
