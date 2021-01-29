@@ -30,7 +30,7 @@ const CardEvent = ({ title, id, img, details, views }) => {
 
         <div className="row rodape-card d-flex align-items-center justify-content-between">
           <div className="col-6">
-            <Link className="btn btn-sm btn-detalhes" to={`/eventdetails`}>
+            <Link className="btn btn-sm btn-detalhes" to={`/event/${id}`}>
               + detalhes
             </Link>
           </div>

@@ -29,3 +29,8 @@
 .btn-edit:hover {
   background-color: #614ea6;
 }
+
+.title,
+.views {
+  color: #614ea6;
+}
