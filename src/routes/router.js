@@ -19,6 +19,7 @@ const Routes = () => {
         <Route exact path="/new-password" component={RecoverPassword} />
         <Route exact path="/publisher" component={EventRegistration} />
         <Route path="/event/:id" component={EventDetails} />
+        <Route path="/editevent/:id" component={EventRegistration} />
       </Switch>
     </BrowserRouter>
   )

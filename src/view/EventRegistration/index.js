@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
@@ -8,13 +8,14 @@ import firebase from '../../config/firebase'
 
 import './styles.css'
 
-const EventRegistration = () => {
+const EventRegistration = (props) => {
   const [title, setTitle] = useState('')
   const [typeEvent, setTypeEvent] = useState('')
   const [descriptionEvent, setDescriptionEvent] = useState('')
   const [dateEvent, setDateEvent] = useState(new Date())
   const [hourEvent, setHourEvent] = useState('')
   const [imageEvent, setImageEvent] = useState('')
+  const [newImage, setNewImage] = useState('')
   const [msg, setMsg] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -23,6 +24,22 @@ const EventRegistration = () => {
   const history = useHistory()
 
   const email = useSelector((state) => state.usuarioEmail)
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection('events')
+      .doc(props.match.params.id)
+      .get()
+      .then((response) => {
+        setTitle(response.data().title)
+        setTypeEvent(response.data().type)
+        setDescriptionEvent(response.data().description)
+        setDateEvent(response.data().date)
+        setHourEvent(response.data().hour)
+        setImageEvent(response.data().image)
+      })
+  }, [props.match.params.id])
 
   const publisher = () => {
     setLoading(true)
@@ -39,7 +56,7 @@ const EventRegistration = () => {
       descriptionEvent === '' ||
       dateEvent === '' ||
       hourEvent === '' ||
-      imageEvent === ''
+      newImage === ''
     ) {
       setMsg('Por favor! Preencha todos os campos')
       setLoading(false)
@@ -47,8 +64,8 @@ const EventRegistration = () => {
     }
 
     storage
-      .ref(`imagens/${imageEvent.name}`)
-      .put(imageEvent)
+      .ref(`imagens/${newImage.name}`)
+      .put(newImage)
       .then((response) => {
         db.collection('events')
           .add({
@@ -59,7 +76,7 @@ const EventRegistration = () => {
             hour: hourEvent,
             user: email,
             views: 0,
-            image: imageEvent.name,
+            image: newImage.name,
             publico: true,
             created: new Date()
           })
@@ -74,13 +91,54 @@ const EventRegistration = () => {
           })
       })
   }
+  const update = () => {
+    setLoading(true)
+    setMsg('')
+
+    if (
+      title === '' ||
+      typeEvent === '' ||
+      descriptionEvent === '' ||
+      dateEvent === '' ||
+      hourEvent === '' ||
+      newImage === ''
+    ) {
+      setMsg('Por favor! Preencha todos os campos')
+      setLoading(false)
+      return
+    }
+
+    if (newImage) storage.ref(`imagens/${newImage.name}`).put(newImage)
+
+    db.collection('events')
+      .doc(props.match.params.id)
+      .update({
+        title,
+        type: typeEvent,
+        description: descriptionEvent,
+        date: dateEvent,
+        hour: hourEvent,
+        image: newImage ? newImage.name : imageEvent
+      })
+      .then(() => {
+        setLoading(false)
+        history.push({ pathname: '/' })
+      })
+      .catch((err) => {
+        setMsg('Não foi possível cadastrar o evento')
+        setLoading(false)
+        return
+      })
+  }
 
   return (
     <>
       <NavBar />
       <div className="col-12 container-fluid mt-5">
         <div className="row">
-          <h3 className="text-center fw-bold">Novo Evento</h3>
+          <h3 className="text-center fw-bold">
+            {props.match.params.id ? 'Atualizar Evento' : 'Novo Evento'}
+          </h3>
         </div>
 
         <form>
@@ -89,7 +147,7 @@ const EventRegistration = () => {
             <input
               type="text"
               className="form-control"
-              value={title}
+              value={title !== '' && title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
@@ -100,7 +158,7 @@ const EventRegistration = () => {
               onChange={(e) => setTypeEvent(e.target.value)}
               className="form-control"
               required
-              defaultValue="Selecione o tipo"
+              defaultValue={typeEvent !== '' && typeEvent}
             >
               <option disabled>Selecione o tipo</option>
               <option>Festa</option>
@@ -115,7 +173,7 @@ const EventRegistration = () => {
               className="form-control"
               rows="3"
               required
-              value={descriptionEvent}
+              value={descriptionEvent !== '' && descriptionEvent}
               onChange={(e) => setDescriptionEvent(e.target.value)}
             ></textarea>
           </div>
@@ -126,7 +184,7 @@ const EventRegistration = () => {
                 type="date"
                 className="form-control"
                 required
-                value={dateEvent}
+                value={dateEvent !== '' && dateEvent}
                 onChange={(e) => setDateEvent(e.target.value)}
               />
             </div>
@@ -136,7 +194,7 @@ const EventRegistration = () => {
                 type="time"
                 className="form-control"
                 required
-                value={hourEvent}
+                value={hourEvent !== '' && hourEvent}
                 onChange={(e) => setHourEvent(e.target.value)}
               />
             </div>
@@ -146,8 +204,9 @@ const EventRegistration = () => {
             <input
               type="file"
               className="form-control"
+              placeholder={imageEvent}
               required
-              onChange={(e) => setImageEvent(e.target.files[0])}
+              onChange={(e) => setNewImage(e.target.files[0])}
             />
           </div>
 
@@ -164,9 +223,9 @@ const EventRegistration = () => {
             <button
               type="button"
               className="w-100 btn btn-lg btn-block mt-3 mb-4 btn-publisher"
-              onClick={publisher}
+              onClick={props.match.params.id ? update : publisher}
             >
-              Publicar Eventos
+              {props.match.params.id ? 'Atualizar Evento' : 'Publicar Evento'}
             </button>
           )}
         </form>

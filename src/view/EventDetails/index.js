@@ -98,7 +98,10 @@ const EventDetails = (props) => {
           </div>
 
           {user === event.user && (
-            <Link to="" className="btn-edit p-1">
+            <Link
+              to={`/editevent/${props.match.params.id}`}
+              className="btn-edit p-1"
+            >
               <BsPencil size={40} />
             </Link>
           )}
