@@ -16,11 +16,11 @@ const Home = ({ match }) => {
   const userEmail = useSelector((state) => state.usuarioEmail)
 
   useEffect(() => {
-    if (match.params.param) {
+    if (match.params.my) {
       firebase
         .firestore()
         .collection('events')
-        .where('user', '===', userEmail)
+        .where('user', '==', userEmail)
         .get()
         .then(async (response) => {
           await response.docs.forEach((doc) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import {
   MdQueryBuilder,
@@ -21,6 +21,7 @@ const EventDetails = (props) => {
   const [loading, setLoading] = useState(true)
 
   const user = useSelector((state) => state.usuarioEmail)
+  const history = useHistory()
 
   useEffect(() => {
     firebase
@@ -46,6 +47,18 @@ const EventDetails = (props) => {
           })
       })
   }, [props.match.params.id])
+
+  const remove = () => {
+    firebase
+      .firestore()
+      .collection('events')
+      .doc(props.match.params.id)
+      .delete()
+      .then(() => {
+        setLoading(true)
+        history.push('/')
+      })
+  }
 
   return (
     <>
@@ -104,6 +117,15 @@ const EventDetails = (props) => {
             >
               <BsPencil size={40} />
             </Link>
+          )}
+          {user === event.user && (
+            <button
+              type="button"
+              className="w-100 btn btn-lg btn-block mt-3 mb-5 btn-cadastro"
+              onClick={remove}
+            >
+              Remover Evento
+            </button>
           )}
         </div>
       )}

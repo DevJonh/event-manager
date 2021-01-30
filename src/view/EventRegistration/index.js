@@ -26,19 +26,22 @@ const EventRegistration = (props) => {
   const email = useSelector((state) => state.usuarioEmail)
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection('events')
-      .doc(props.match.params.id)
-      .get()
-      .then((response) => {
-        setTitle(response.data().title)
-        setTypeEvent(response.data().type)
-        setDescriptionEvent(response.data().description)
-        setDateEvent(response.data().date)
-        setHourEvent(response.data().hour)
-        setImageEvent(response.data().image)
-      })
+    if (props.match.params.id) {
+      firebase
+        .firestore()
+        .collection('events')
+        .doc(props.match.params.id)
+        .get()
+        .then((response) => {
+          console.log(response.data())
+          setTitle(response.data().title)
+          setTypeEvent(response.data().type)
+          setDescriptionEvent(response.data().description)
+          setDateEvent(response.data().date)
+          setHourEvent(response.data().hour)
+          setImageEvent(response.data().image)
+        })
+    }
   }, [props.match.params.id])
 
   const publisher = () => {
@@ -100,8 +103,7 @@ const EventRegistration = (props) => {
       typeEvent === '' ||
       descriptionEvent === '' ||
       dateEvent === '' ||
-      hourEvent === '' ||
-      newImage === ''
+      hourEvent === ''
     ) {
       setMsg('Por favor! Preencha todos os campos')
       setLoading(false)
@@ -147,7 +149,7 @@ const EventRegistration = (props) => {
             <input
               type="text"
               className="form-control"
-              value={title !== '' && title}
+              value={title && title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
@@ -158,7 +160,7 @@ const EventRegistration = (props) => {
               onChange={(e) => setTypeEvent(e.target.value)}
               className="form-control"
               required
-              defaultValue={typeEvent !== '' && typeEvent}
+              value={typeEvent && typeEvent}
             >
               <option disabled>Selecione o tipo</option>
               <option>Festa</option>
@@ -173,7 +175,7 @@ const EventRegistration = (props) => {
               className="form-control"
               rows="3"
               required
-              value={descriptionEvent !== '' && descriptionEvent}
+              value={descriptionEvent && descriptionEvent}
               onChange={(e) => setDescriptionEvent(e.target.value)}
             ></textarea>
           </div>
@@ -184,7 +186,7 @@ const EventRegistration = (props) => {
                 type="date"
                 className="form-control"
                 required
-                value={dateEvent !== '' && dateEvent}
+                value={dateEvent && dateEvent}
                 onChange={(e) => setDateEvent(e.target.value)}
               />
             </div>
@@ -194,7 +196,7 @@ const EventRegistration = (props) => {
                 type="time"
                 className="form-control"
                 required
-                value={hourEvent !== '' && hourEvent}
+                value={hourEvent && hourEvent}
                 onChange={(e) => setHourEvent(e.target.value)}
               />
             </div>
