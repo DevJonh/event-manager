@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { MdReorder, MdInsertEmoticon } from 'react-icons/md'
 
 import './styles.css'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 const NavBar = () => {
   const dispatch = useDispatch()
@@ -30,7 +30,7 @@ const NavBar = () => {
                 Home
               </Link>
             </li>
-            {useSelector((state) => !state.usuarioLogado) ? (
+            {!localStorage.getItem('@event_manager:login') ? (
               <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/register">

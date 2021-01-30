@@ -33,7 +33,6 @@ const EventRegistration = (props) => {
         .doc(props.match.params.id)
         .get()
         .then((response) => {
-          console.log(response.data())
           setTitle(response.data().title)
           setTypeEvent(response.data().type)
           setDescriptionEvent(response.data().description)

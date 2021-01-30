@@ -44,7 +44,7 @@ const Login = () => {
 
   return (
     <div className="login-content d-flex align-items-center">
-      {useSelector((state) => state.usuarioLogado) ? (
+      {localStorage.getItem('@event_manager:login') ? (
         <Redirect to="/" />
       ) : (
         <form className="form-signin mx-auto">
