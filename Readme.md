@@ -16,13 +16,13 @@ Esta aplicação foi desenvolvida com finalidade de estudos e possui as seguinte
 - [:camera:] Upload de imagem
 - [:calling:] Layout responsivo (se ajusta ao tamanho da tela)
 
-### Lembrete - 01 :thought_balloon:
+### Lembrete - 01:
 
 Para o funcionamento esperado, você precisará primeiramente criar a sua base de dados/cloud firestone e sua storage, em seguida modificar o arquivo de configuração do firebase que se encontra em **"src/config/firebase.js"** com as informações da sua base de dados.
 
 Para saber mais - [clique aqui](https://firebase.google.com/docs/web/setup?authuser=0#using-module-bundlers)
 
-### Lembrete - 02 :thought_balloon:
+### Lembrete - 02:
 
 A pasta node_modules não é enviada para o Github. Por isso, ao fazer download ou clone deste código fonte, lembre-se de abrir a pasta do projeto no terminal e executar o seguinte comando:
 
@@ -32,7 +32,7 @@ yarn
 
 E pronto, a pasta node_modules será gerada com os modulos que o projeto utilizar.
 
-### Iniciar a aplicacão :checkered_flag:
+### Iniciar a aplicacão:
 
 Para rodar a aplicação, execute o comando: <br>
 
@@ -41,5 +41,3 @@ yarn start
 ```
 
 Em seguida, será aberto o endereço [http://localhost:3000](http://localhost:3000) em seu navegador.
-
-### Bons estudos! :clap:
